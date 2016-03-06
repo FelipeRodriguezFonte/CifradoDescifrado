@@ -36,12 +36,12 @@ namespace CifradoDescifrado
             //Paso a Bytes la clave
             string textoCifrarString = textDescifrado.Text;
             byte[] dataToEncrypt = Encoding.UTF8.GetBytes(textoCifrarString);
-         //   byte[] dataToEncrypt = numStrToPackedByteArray(textoCifrarString);
+            //   byte[] dataToEncrypt = numStrToPackedByteArray(textoCifrarString);
 
             //Paso a Bytes la clave
             string keyString = textKey.Text;
             byte[] key = hexStrToPackedByteArray(keyString);
-           
+
             //byte[] key = Encoding.UTF8.GetBytes(keyString);
 
             //Paso a Bytes el IV
@@ -77,8 +77,8 @@ namespace CifradoDescifrado
         {
             //Paso a Bytes la clave
             String textoDescifrarString = textCifrado.Text;
-            
-           // byte[] dataToDecrypt = numStrToPackedByteArray(textoDescifrarString);
+
+            // byte[] dataToDecrypt = numStrToPackedByteArray(textoDescifrarString);
             byte[] dataToDecrypt = hexStrToPackedByteArray(textoDescifrarString);
             // byte[] dataToDecrypt = Convert.FromBase64String(textoDescifrarString);
             // byte[] dataToDecrypt = Encoding.UTF8.GetBytes(textoDescifrarString);
@@ -295,7 +295,7 @@ namespace CifradoDescifrado
 
                     cryptoStream.Write(dataToEncrypt, 0, dataToEncrypt.Length);
                     cryptoStream.FlushFinalBlock();
-              
+
                     String cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
                     textCifrado.Text = cadena;
 
@@ -408,7 +408,8 @@ namespace CifradoDescifrado
             int highNibble = 1;
             for (int i = 0; i < str.Length; i++)
             {
-                try {
+                try
+                {
                     byte digit;
 
                     if ((str[i] >= '0') && (str[i] <= '9'))
@@ -470,7 +471,8 @@ namespace CifradoDescifrado
 
             String message = null;
 
-            try {
+            try
+            {
 
                 // Validaciones iniciales
                 if (ba == null)
@@ -530,7 +532,8 @@ namespace CifradoDescifrado
 
                 }
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("packedByteArrayToHexStr() - " + ex.Message);
             }
@@ -541,66 +544,68 @@ namespace CifradoDescifrado
 
         public static byte[] numStrToPackedByteArray(string str)
         {
-            try{
+            try
+            {
 
                 string message;
                 byte[] temporal = null;
 
-            // Validaciones iniciales
-            if (str == null)
-            {
-                message = "numStrToPackedByteArray() - str es null";
-                throw new System.Exception();
-                }
-
-            if (str.Length == 0)
-            {
-                message = "numStrToPackedByteArray() - str tiene longitud cero";
-                throw new System.Exception();
-                }
-
-            if ((str.Length & 0x0001) == 0x0001)
-            {
-                message = "numStrToPackedByteArray() - str tiene longitud impar";
-                throw new System.Exception();
-            }
-
-            // Creamos un array con la mitad de longitud que el String 
-            temporal = new byte[str.Length >> 1];
-
-            int j = 0;
-            int highNibble = 1;
-            for (int i = 0; i < str.Length; i++)
-            {
-
-                if ((str[i] < '0') || (str[i] > '9'))
+                // Validaciones iniciales
+                if (str == null)
                 {
-                    message = "numStrToPackedByteArray() - carácter inválido en el string - " + str ;
+                    message = "numStrToPackedByteArray() - str es null";
+                    throw new System.Exception();
+                }
+
+                if (str.Length == 0)
+                {
+                    message = "numStrToPackedByteArray() - str tiene longitud cero";
+                    throw new System.Exception();
+                }
+
+                if ((str.Length & 0x0001) == 0x0001)
+                {
+                    message = "numStrToPackedByteArray() - str tiene longitud impar";
+                    throw new System.Exception();
+                }
+
+                // Creamos un array con la mitad de longitud que el String 
+                temporal = new byte[str.Length >> 1];
+
+                int j = 0;
+                int highNibble = 1;
+                for (int i = 0; i < str.Length; i++)
+                {
+
+                    if ((str[i] < '0') || (str[i] > '9'))
+                    {
+                        message = "numStrToPackedByteArray() - carácter inválido en el string - " + str;
                         throw new System.Exception();
-                }
+                    }
 
-                // Asignamos el valor del caracter en su lugar correspondiente
-                if (highNibble == 1)
-                {
-                    temporal[j] = (byte)((str[i] - '0') << 4);
-                    highNibble = 0;
+                    // Asignamos el valor del caracter en su lugar correspondiente
+                    if (highNibble == 1)
+                    {
+                        temporal[j] = (byte)((str[i] - '0') << 4);
+                        highNibble = 0;
+                    }
+                    else {
+                        temporal[j] |= (byte)((str[i] - '0') & 0x00FF);
+                        highNibble = 1;
+                        j++;
+                    }
+
                 }
-                else {
-                    temporal[j] |= (byte)((str[i] - '0') & 0x00FF);
-                    highNibble = 1;
-                    j++;
-                }
-                    
-            }
                 return temporal;
             }
-            catch( Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show("numStrToPackedByteArray() - " + ex.Message);
                 return null;
-             
+
             }
 
-           
+
         }
 
         public static string ByteArrayToHexString(byte[] Bytes)
@@ -657,6 +662,120 @@ namespace CifradoDescifrado
             return string.Empty;
         }
 
+
+        /**
+	 * Adding EMV Padding. This padding is: 0x80 (startPadding) and adding 0x00 (bodyPadding) to block size.
+	 * If block size is achived with the <i>startPadding</i>, then is necessary to add the <i>bodyPadding</i>
+	 * to complete the new block size.
+	 * @param data Data to add padding.
+	 * @param blockLength The block size (in bytes).
+	 * @return the data with padding.
+	 * @throws Exception
+	 */
+        public static byte[] addEMVPadding(byte[] data, int blockLength)
+        {
+            byte[] buffer = null; //Resultado
+            String mensajeError = null;
+
+            try
+            {
+                //Comprobaciones iniciales
+                if (blockLength <= 0)
+                {
+                    mensajeError = "Exist a problem with the 'blockLength' input parameter";
+                    throw new System.Exception();
+                }
+                if (data == null || data.Length == 0)
+                {
+                    mensajeError = "Exist a problem with the 'data' input parameter";
+                    throw new System.Exception();
+                }
+
+                /* Calculo de padding  y tamaño de buffer salida */
+                int bufferlength = ((data.Length / blockLength) + 1) * blockLength; //Tam. buffer salida
+
+                /* Crear Buffer */
+                buffer = new byte[bufferlength];
+
+                /* Copiar datos al buffer y añadir padding */
+                //Copar datos
+                Array.Copy(data, 0, buffer, 0, data.Length);
+
+                //Añadir Padding
+                buffer[data.Length] = (byte)0x80;
+                for (int i = data.Length + 1; i < bufferlength; i++)
+                {
+                    buffer[i] = (byte)0x00;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(mensajeError);
+
+            }
+
+
+            return buffer;
+        }
+
+        /**
+         * Remove the EMV padding. This padding is: 0x80 (startPadding) and adding 0x00 (bodyPadding) to block size.
+         * If block size is achived with the <i>startPadding</i>, then is necessary to add the <i>bodyPadding</i>
+         * to complete the new block size.
+         * @param data Data to remove padding.
+         * @return data without padding.
+         * @throws Exception
+         */
+        public static byte[] removeEMVPadding(byte[] data)
+        {
+            String mensajeError = null;
+
+            byte[] buffer = null; //Resultado
+
+            try
+            {
+                
+                /* Validar parametros de entrada */
+                if (data == null || data.Length < 2)
+                {
+                    mensajeError = "Exist a problem with the 'data' input parameter";
+                    throw new System.Exception();
+                }
+
+                /* Encontrar longitud de datos */
+                int bufferLength = data.Length;
+
+                for (bufferLength--; bufferLength > 0; bufferLength--)
+                {
+                    if (data[bufferLength] == (byte)0x00) break;
+                    if (data[bufferLength] != (byte)0x80)
+                    {
+                        mensajeError = "EMV padding incorrect ";
+                        throw new System.Exception();
+                    }
+                }
+                if (bufferLength <= 0)
+                {
+
+                    mensajeError = "EMV padding incorrect - block contains only zeroes ";
+                    throw new System.Exception();
+                }
+
+                /* Eliminar padding */
+                buffer = new byte[bufferLength];
+                Array.Copy(data, 0, buffer, 0, bufferLength);
+
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show(mensajeError);
+            }
+
+            return buffer;
+        }
+
         private static byte[] HashSHA256(byte[] key, byte[] message)
         {
             var hash = new HMACSHA256(key);
@@ -669,10 +788,10 @@ namespace CifradoDescifrado
             return hash.ComputeHash(message);
         }
 
-        private static byte[] MacRetail(byte[] key, byte[] dataToEncrypt)
+        private static byte[] MacRetail(byte[] key, byte[] dataToEncrypt, string tipoPadding)
         {
             byte[] result = null;
-            
+
             byte[] key1 = new byte[8];
             Array.Copy(key, 0, key1, 0, 8);
             byte[] key2 = new byte[8];
@@ -681,15 +800,87 @@ namespace CifradoDescifrado
             DES des1 = DES.Create();
             des1.Key = key1;
             des1.Mode = CipherMode.CBC;
-            des1.Padding = PaddingMode.None;
-            des1.IV = new byte[8];
+
+            // aqui definimos el tipo de padding
+            switch (tipoPadding)
+            {
+
+                case "PKCS7":
+                    des1.Padding = PaddingMode.PKCS7;
+                    break;
+
+                case "Zeros":
+                    des1.Padding = PaddingMode.Zeros;
+                    break;
+
+                case "None":
+                    des1.Padding = PaddingMode.None;
+                    break;
+
+                case "ANSIX923":
+                    des1.Padding = PaddingMode.ANSIX923;
+                    break;
+
+                case "ISO10126":
+                    des1.Padding = PaddingMode.ISO10126;
+                    break;
+
+                case "EMV":
+                    des1.Padding = PaddingMode.None;
+                    break;
+
+            }
+
+            //  des1.Padding = PaddingMode.None;
+
+            //Vector inicializacion a ceros
+            des1.IV = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
             DES des2 = DES.Create();
             des2.Key = key2;
             des2.Mode = CipherMode.CBC;
-            des2.Padding = PaddingMode.None;
-            des2.IV = new byte[8];
 
+            switch (tipoPadding)
+            {
+
+                case "PKCS7":
+                    des2.Padding = PaddingMode.PKCS7;
+                    break;
+
+                case "Zeros":
+                    des2.Padding = PaddingMode.Zeros;
+                    break;
+
+                case "None":
+                    des2.Padding = PaddingMode.None;
+                    break;
+
+                case "ANSIX923":
+                    des2.Padding = PaddingMode.ANSIX923;
+                    break;
+
+                case "ISO10126":
+                    des2.Padding = PaddingMode.ISO10126;
+                    break;
+                case "EMV":
+                    des2.Padding = PaddingMode.None;
+
+                    break;
+
+            }
+
+            // des2.Padding = PaddingMode.None;
+
+            //Vector inicializacion a ceros
+            des2.IV = new byte[] { 0x00, 0x00, 0x00,0x00,0x00,0x00,0x00,0x00 };
+
+            if (tipoPadding.Equals("EMV"))
+            {
+                // Llamo a rellenar padding previamente.
+                dataToEncrypt = addEMVPadding(dataToEncrypt, 8);
+            }
+
+            
             // MAC Algorithm 3
             byte[] intermediate = des1.CreateEncryptor().TransformFinalBlock(dataToEncrypt, 0, dataToEncrypt.Length);
 
@@ -728,7 +919,7 @@ namespace CifradoDescifrado
 
         private void buttonUuid_Click(object sender, EventArgs e)
         {
-          
+
             textUuid.Text = Guid.NewGuid().ToString();
         }
 
@@ -738,13 +929,13 @@ namespace CifradoDescifrado
 
             //Capturar excepcion
             int value;
-            bool resultado = int.TryParse(comboLongKey.SelectedItem.ToString(),out value);
-       
+            bool resultado = int.TryParse(comboLongKey.SelectedItem.ToString(), out value);
+
             byte[] key = new byte[value]; // For a 192-bit key = 24 bytes
             rng.GetBytes(key);
 
-            textGenerateKey.Text=ByteArrayToHexString(key);
-                        
+            textGenerateKey.Text = ByteArrayToHexString(key);
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -763,6 +954,10 @@ namespace CifradoDescifrado
             byte[] key = hexStrToPackedByteArray(keyString);
             byte[] mac = null;
 
+            //Extraccion de modo de padding
+            String tipoPadding = comboBoxPaddingMAC.SelectedItem.ToString();
+
+
             String tipoMac = comboBoxMAC.SelectedItem.ToString();
 
             switch (tipoMac)
@@ -775,7 +970,7 @@ namespace CifradoDescifrado
                     mac = HashSHA512(key, dataToEncrypt);
                     break;
                 case "MAC X9.19":
-                    mac = MacRetail(key, dataToEncrypt);
+                    mac = MacRetail(key, dataToEncrypt, tipoPadding);
                     break;
             }
 
@@ -787,6 +982,11 @@ namespace CifradoDescifrado
         }
 
         private void comboBoxMAC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxPaddingMAC_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

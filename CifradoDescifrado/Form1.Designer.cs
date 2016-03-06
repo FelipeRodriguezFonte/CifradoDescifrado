@@ -484,11 +484,13 @@
             "None",
             "ANSIX923",
             "ISO10126",
-            "Zeros"});
+            "Zeros",
+            "EMV"});
             this.comboBoxPaddingMAC.Location = new System.Drawing.Point(124, 263);
             this.comboBoxPaddingMAC.Name = "comboBoxPaddingMAC";
             this.comboBoxPaddingMAC.Size = new System.Drawing.Size(149, 21);
             this.comboBoxPaddingMAC.TabIndex = 22;
+            this.comboBoxPaddingMAC.SelectedIndexChanged += new System.EventHandler(this.comboBoxPaddingMAC_SelectedIndexChanged);
             // 
             // label15
             // 
