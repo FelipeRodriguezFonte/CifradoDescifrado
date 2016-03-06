@@ -121,7 +121,8 @@
             "None",
             "ANSIX923",
             "ISO10126",
-            "Zeros"});
+            "Zeros",
+            "EMV"});
             this.comboPadding.Location = new System.Drawing.Point(121, 292);
             this.comboPadding.Name = "comboPadding";
             this.comboPadding.Size = new System.Drawing.Size(149, 21);

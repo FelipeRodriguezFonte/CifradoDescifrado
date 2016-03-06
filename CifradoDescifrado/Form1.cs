@@ -161,6 +161,10 @@ namespace CifradoDescifrado
                         des.Padding = PaddingMode.ISO10126;
                         break;
 
+                    case "EMV":
+                        des.Padding = PaddingMode.None;
+                        break;
+
                 }
 
 
@@ -173,10 +177,14 @@ namespace CifradoDescifrado
                     cryptoStream.FlushFinalBlock();
 
                     //String cadena = Encoding.UTF8.GetString(memoryStream.ToArray());
-                    String cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
-                    Console.WriteLine(cadena);
-                    Console.WriteLine(Encoding.UTF8.GetString(memoryStream.ToArray()));
-                    Console.WriteLine(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+
+                    //Estoy revisando aquí.
+
+                    if (tipoPadding.Equals("EMV"))
+                    { String cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length)); }
+
+                    else { String cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length)); }
+                   
                     textDescifrado.Text = cadena;
 
                 }
@@ -223,6 +231,10 @@ namespace CifradoDescifrado
 
                     case "ISO10126":
                         des.Padding = PaddingMode.ISO10126;
+                        break;
+
+                    case "EMV":
+                        des.Padding = PaddingMode.None;
                         break;
 
                 }
@@ -285,6 +297,10 @@ namespace CifradoDescifrado
                         des.Padding = PaddingMode.ISO10126;
                         break;
 
+                    case "EMV":
+                        des.Padding = PaddingMode.None;
+                        break;
+
                 }
 
 
@@ -344,6 +360,10 @@ namespace CifradoDescifrado
 
                     case "ISO10126":
                         des.Padding = PaddingMode.ISO10126;
+                        break;
+
+                    case "EMV":
+                        des.Padding = PaddingMode.None;
                         break;
 
                 }
