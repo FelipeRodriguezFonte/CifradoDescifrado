@@ -78,19 +78,16 @@ namespace CifradoDescifrado
             //Paso a Bytes la clave
             String textoDescifrarString = textCifrado.Text;
 
-            // byte[] dataToDecrypt = numStrToPackedByteArray(textoDescifrarString);
             byte[] dataToDecrypt = hexStrToPackedByteArray(textoDescifrarString);
-            // byte[] dataToDecrypt = Convert.FromBase64String(textoDescifrarString);
-            // byte[] dataToDecrypt = Encoding.UTF8.GetBytes(textoDescifrarString);
 
             //Paso a Bytes la clave
             String keyString = textKey.Text;
-            //byte[] key = Encoding.UTF8.GetBytes(keyString);
+
             byte[] key = hexStrToPackedByteArray(keyString);
 
             //Paso a Bytes el IV
             String ivString = textIV.Text;
-            //            byte[] iv = Encoding.UTF8.GetBytes(ivString);
+
             byte[] iv = hexStrToPackedByteArray(ivString);
 
 
@@ -176,15 +173,22 @@ namespace CifradoDescifrado
                     cryptoStream.Write(dataToDecrypt, 0, dataToDecrypt.Length);
                     cryptoStream.FlushFinalBlock();
 
-                    //String cadena = Encoding.UTF8.GetString(memoryStream.ToArray());
 
-                    //Estoy revisando aquí.
+                    String cadena = null;
+                    byte[] resultado = null;
 
                     if (tipoPadding.Equals("EMV"))
-                    { String cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length)); }
+                    {
 
-                    else { String cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length)); }
-                   
+                        resultado = removeEMVPadding(memoryStream.ToArray());
+                        cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
+                    }
+
+                    else {
+
+                        cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+                    }
+
                     textDescifrado.Text = cadena;
 
                 }
@@ -245,11 +249,24 @@ namespace CifradoDescifrado
                     var cryptoStream = new CryptoStream(memoryStream, des.CreateDecryptor(),
                         CryptoStreamMode.Write);
 
-                    //cryptoStream.Write(dataToDecrypt, 0, dataToDecrypt.Length);
-                    //cryptoStream.FlushFinalBlock();
 
-                    String cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+                    String cadena = null;
+                    byte[] resultado = null;
+
+                    if (tipoPadding.Equals("EMV"))
+                    {
+
+                        resultado = removeEMVPadding(memoryStream.ToArray());
+                        cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
+                    }
+
+                    else {
+
+                        cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+                    }
+
                     textDescifrado.Text = cadena;
+
                 }
             }
         }
@@ -312,9 +329,24 @@ namespace CifradoDescifrado
                     cryptoStream.Write(dataToEncrypt, 0, dataToEncrypt.Length);
                     cryptoStream.FlushFinalBlock();
 
-                    String cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
-                    textCifrado.Text = cadena;
+                    String cadena = null;
+                    byte[] resultado = null;
 
+
+                    if (tipoPadding.Equals("EMV"))
+                    {
+
+                        resultado = addEMVPadding(memoryStream.ToArray(),8);
+                        cadena = packedByteArrayToHexStr(resultado, 0, resultado.Length);
+
+                    }
+
+                    else {
+
+                        cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
+                    }
+
+                    textCifrado.Text = cadena;
 
                 }
             }
@@ -378,9 +410,23 @@ namespace CifradoDescifrado
                     cryptoStream.FlushFinalBlock();
 
 
-                    //     String cadena = Convert.ToBase64String(memoryStream.ToArray());
-                    //     textCifrado.Text = cadena;
-                    String cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
+                    String cadena = null;
+                    byte[] resultado = null;
+
+
+                    if (tipoPadding.Equals("EMV"))
+                    {
+
+                        resultado = addEMVPadding(memoryStream.ToArray(), 8);
+                        cadena = packedByteArrayToHexStr(resultado, 0, resultado.Length);
+
+                    }
+
+                    else {
+
+                        cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
+                    }
+
                     textCifrado.Text = cadena;
 
                 }
@@ -755,7 +801,7 @@ namespace CifradoDescifrado
 
             try
             {
-                
+
                 /* Validar parametros de entrada */
                 if (data == null || data.Length < 2)
                 {
@@ -892,7 +938,7 @@ namespace CifradoDescifrado
             // des2.Padding = PaddingMode.None;
 
             //Vector inicializacion a ceros
-            des2.IV = new byte[] { 0x00, 0x00, 0x00,0x00,0x00,0x00,0x00,0x00 };
+            des2.IV = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
             if (tipoPadding.Equals("EMV"))
             {
@@ -900,7 +946,7 @@ namespace CifradoDescifrado
                 dataToEncrypt = addEMVPadding(dataToEncrypt, 8);
             }
 
-            
+
             // MAC Algorithm 3
             byte[] intermediate = des1.CreateEncryptor().TransformFinalBlock(dataToEncrypt, 0, dataToEncrypt.Length);
 

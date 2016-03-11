@@ -268,6 +268,7 @@
             this.textUuid.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textUuid.Location = new System.Drawing.Point(61, 64);
             this.textUuid.Name = "textUuid";
+            this.textUuid.ReadOnly = true;
             this.textUuid.Size = new System.Drawing.Size(522, 23);
             this.textUuid.TabIndex = 19;
             // 
@@ -377,6 +378,7 @@
             this.textGenerateKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textGenerateKey.Location = new System.Drawing.Point(61, 130);
             this.textGenerateKey.Name = "textGenerateKey";
+            this.textGenerateKey.ReadOnly = true;
             this.textGenerateKey.Size = new System.Drawing.Size(522, 23);
             this.textGenerateKey.TabIndex = 22;
             // 
@@ -427,6 +429,7 @@
             this.textBoxMAC.Location = new System.Drawing.Point(127, 126);
             this.textBoxMAC.Multiline = true;
             this.textBoxMAC.Name = "textBoxMAC";
+            this.textBoxMAC.ReadOnly = true;
             this.textBoxMAC.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxMAC.Size = new System.Drawing.Size(761, 60);
             this.textBoxMAC.TabIndex = 21;
