@@ -33,22 +33,30 @@ namespace CifradoDescifrado
 
         private void button2_Click(object sender, EventArgs e)
         {
+            string myLog;
+            
+
             //Paso a Bytes la clave
             string textoCifrarString = textDescifrado.Text;
             byte[] dataToEncrypt = Encoding.UTF8.GetBytes(textoCifrarString);
-            //   byte[] dataToEncrypt = numStrToPackedByteArray(textoCifrarString);
+
+            myLog = "Texto a cifrar: " + textoCifrarString + "\r\n";
+
+
 
             //Paso a Bytes la clave
             string keyString = textKey.Text;
             byte[] key = hexStrToPackedByteArray(keyString);
 
-            //byte[] key = Encoding.UTF8.GetBytes(keyString);
+            myLog = myLog + "Clave usada para cifrar : " + keyString + "\r\n";
 
+            Console.Write(myLog); 
+           
             //Paso a Bytes el IV
             String ivString = textIV.Text;
             //byte[] iv = Encoding.UTF8.GetBytes(ivString);
             byte[] iv = hexStrToPackedByteArray(ivString);
-
+            myLog = myLog + "IV : " + ivString + "\r\n";
 
             //Extraccion de modos de encadenamiento
             String tipoModoEncadenamiento = comboEncadenamiento.SelectedItem.ToString();
@@ -58,6 +66,8 @@ namespace CifradoDescifrado
 
             //Extraccion del tipo de Cifrado
             String tipoCifrado = comboTipoCifrado.SelectedItem.ToString();
+
+            myLog = myLog + "Modo encadenamiento : " + tipoModoEncadenamiento + "," + "Tipo de Padding: " + tipoPadding + "," + "Modo de cifrado: " + tipoCifrado + "\r\n";
 
             switch (tipoCifrado)
             {
@@ -70,6 +80,9 @@ namespace CifradoDescifrado
                     break;
             }
 
+            StepByStep log = new StepByStep();
+            log.Show();
+            log.logFrame.Text = myLog;
 
         }
 
