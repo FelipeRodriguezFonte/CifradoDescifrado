@@ -68,6 +68,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.comboBoxMAC = new System.Windows.Forms.ComboBox();
+            this.checkStepByStep = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -222,6 +223,7 @@
             this.textIV.Name = "textIV";
             this.textIV.Size = new System.Drawing.Size(149, 20);
             this.textIV.TabIndex = 14;
+            this.textIV.Text = "0000000000000000";
             // 
             // buttonCifrado
             // 
@@ -297,6 +299,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.checkStepByStep);
             this.tabPage1.Controls.Add(this.textCifrado);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.textDescifrado);
@@ -529,6 +532,17 @@
             this.comboBoxMAC.TabIndex = 24;
             this.comboBoxMAC.SelectedIndexChanged += new System.EventHandler(this.comboBoxMAC_SelectedIndexChanged);
             // 
+            // checkStepByStep
+            // 
+            this.checkStepByStep.AutoSize = true;
+            this.checkStepByStep.Location = new System.Drawing.Point(490, 333);
+            this.checkStepByStep.Name = "checkStepByStep";
+            this.checkStepByStep.Size = new System.Drawing.Size(82, 17);
+            this.checkStepByStep.TabIndex = 18;
+            this.checkStepByStep.Text = "StepByStep";
+            this.checkStepByStep.UseVisualStyleBackColor = true;
+            this.checkStepByStep.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -593,6 +607,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         public System.Windows.Forms.ComboBox comboBoxMAC;
+        private System.Windows.Forms.CheckBox checkStepByStep;
     }
 }
 

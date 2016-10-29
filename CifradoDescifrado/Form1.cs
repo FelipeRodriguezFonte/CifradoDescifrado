@@ -11,6 +11,7 @@ namespace CifradoDescifrado
 {
     public partial class Form1 : Form
     {
+        public string myLog;
         public Form1()
         {
             InitializeComponent();
@@ -33,7 +34,7 @@ namespace CifradoDescifrado
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string myLog;
+            
             
 
             //Paso a Bytes la clave
@@ -80,9 +81,14 @@ namespace CifradoDescifrado
                     break;
             }
 
-            StepByStep log = new StepByStep();
-            log.Show();
-            log.logFrame.Text = myLog;
+            if (checkStepByStep.ThreeState == true)
+            {
+                StepByStep log = new StepByStep();
+                log.Show();
+                log.logFrame.Text = myLog;
+            }
+            
+
 
         }
 
@@ -359,7 +365,10 @@ namespace CifradoDescifrado
                         cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
                     }
 
+                    myLog = myLog + "Texto Cifrado: " + cadena + "\r\n";
+
                     textCifrado.Text = cadena;
+                    
 
                 }
             }
@@ -1068,6 +1077,19 @@ namespace CifradoDescifrado
         private void comboBoxPaddingMAC_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkStepByStep.ThreeState)
+            {
+                checkStepByStep.ThreeState = true;
+             
+            }
+            else
+            {
+                checkStepByStep.ThreeState = false;
+            }
         }
     }
 }
