@@ -50,6 +50,7 @@
             this.buttonUuid = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkStepByStep = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label11 = new System.Windows.Forms.Label();
             this.comboLongKey = new System.Windows.Forms.ComboBox();
@@ -68,7 +69,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.comboBoxMAC = new System.Windows.Forms.ComboBox();
-            this.checkStepByStep = new System.Windows.Forms.CheckBox();
+            this.botonGuardar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -164,7 +165,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label5.Location = new System.Drawing.Point(390, 239);
+            this.label5.Location = new System.Drawing.Point(532, 239);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(81, 15);
             this.label5.TabIndex = 9;
@@ -177,7 +178,7 @@
             this.comboTipoCifrado.Items.AddRange(new object[] {
             "DES",
             "3DES"});
-            this.comboTipoCifrado.Location = new System.Drawing.Point(490, 236);
+            this.comboTipoCifrado.Location = new System.Drawing.Point(632, 236);
             this.comboTipoCifrado.Name = "comboTipoCifrado";
             this.comboTipoCifrado.Size = new System.Drawing.Size(149, 21);
             this.comboTipoCifrado.TabIndex = 8;
@@ -211,7 +212,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label7.Location = new System.Drawing.Point(452, 290);
+            this.label7.Location = new System.Drawing.Point(594, 290);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(19, 15);
             this.label7.TabIndex = 13;
@@ -219,7 +220,7 @@
             // 
             // textIV
             // 
-            this.textIV.Location = new System.Drawing.Point(490, 287);
+            this.textIV.Location = new System.Drawing.Point(632, 287);
             this.textIV.Name = "textIV";
             this.textIV.Size = new System.Drawing.Size(149, 20);
             this.textIV.TabIndex = 14;
@@ -299,6 +300,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.botonGuardar);
             this.tabPage1.Controls.Add(this.checkStepByStep);
             this.tabPage1.Controls.Add(this.textCifrado);
             this.tabPage1.Controls.Add(this.label1);
@@ -322,6 +324,17 @@
             this.tabPage1.Size = new System.Drawing.Size(917, 428);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Encrypt/Decrypt";
+            // 
+            // checkStepByStep
+            // 
+            this.checkStepByStep.AutoSize = true;
+            this.checkStepByStep.Location = new System.Drawing.Point(389, 360);
+            this.checkStepByStep.Name = "checkStepByStep";
+            this.checkStepByStep.Size = new System.Drawing.Size(82, 17);
+            this.checkStepByStep.TabIndex = 18;
+            this.checkStepByStep.Text = "StepByStep";
+            this.checkStepByStep.UseVisualStyleBackColor = true;
+            this.checkStepByStep.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // tabPage2
             // 
@@ -532,16 +545,15 @@
             this.comboBoxMAC.TabIndex = 24;
             this.comboBoxMAC.SelectedIndexChanged += new System.EventHandler(this.comboBoxMAC_SelectedIndexChanged);
             // 
-            // checkStepByStep
+            // botonGuardar
             // 
-            this.checkStepByStep.AutoSize = true;
-            this.checkStepByStep.Location = new System.Drawing.Point(490, 333);
-            this.checkStepByStep.Name = "checkStepByStep";
-            this.checkStepByStep.Size = new System.Drawing.Size(82, 17);
-            this.checkStepByStep.TabIndex = 18;
-            this.checkStepByStep.Text = "StepByStep";
-            this.checkStepByStep.UseVisualStyleBackColor = true;
-            this.checkStepByStep.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.botonGuardar.Location = new System.Drawing.Point(380, 237);
+            this.botonGuardar.Name = "botonGuardar";
+            this.botonGuardar.Size = new System.Drawing.Size(114, 23);
+            this.botonGuardar.TabIndex = 19;
+            this.botonGuardar.Text = "Guardar";
+            this.botonGuardar.UseVisualStyleBackColor = true;
+            this.botonGuardar.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // Form1
             // 
@@ -608,6 +620,7 @@
         private System.Windows.Forms.Label label16;
         public System.Windows.Forms.ComboBox comboBoxMAC;
         private System.Windows.Forms.CheckBox checkStepByStep;
+        private System.Windows.Forms.Button botonGuardar;
     }
 }
 

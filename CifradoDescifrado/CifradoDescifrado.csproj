@@ -66,6 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Claves.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Claves.Designer.cs">
+      <DependentUpon>Claves.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     <Compile Include="StepByStep.Designer.cs">
       <DependentUpon>StepByStep.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Claves.resx">
+      <DependentUpon>Claves.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

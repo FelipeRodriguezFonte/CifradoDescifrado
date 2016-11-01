@@ -1091,5 +1091,11 @@ namespace CifradoDescifrado
                 checkStepByStep.ThreeState = false;
             }
         }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            Claves Claves = new Claves();
+            Claves.Show();
+        }
     }
 }
