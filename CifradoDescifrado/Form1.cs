@@ -35,11 +35,19 @@ namespace CifradoDescifrado
         private void button2_Click(object sender, EventArgs e)
         {
             
-            
-
-            //Paso a Bytes la clave
+            byte[] dataToEncrypt = null;
             string textoCifrarString = textDescifrado.Text;
-            byte[] dataToEncrypt = Encoding.UTF8.GetBytes(textoCifrarString);
+
+            if (checkHexadecimal.ThreeState == false){
+                //Paso a Bytes del texto
+                dataToEncrypt = Encoding.UTF8.GetBytes(textoCifrarString);
+            }
+            else{
+                //Paso a Bytes de la cadena como hexadecimal
+                dataToEncrypt = hexStrToPackedByteArray(textoCifrarString);
+            }
+
+           
 
             myLog = "Texto a cifrar: " + textoCifrarString + "\r\n";
 
@@ -200,12 +208,25 @@ namespace CifradoDescifrado
                     {
 
                         resultado = removeEMVPadding(memoryStream.ToArray());
-                        cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
+
+                        if (checkHexadecimal.ThreeState == false) {
+                            cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
+                        }else {
+                            cadena = packedByteArrayToHexStr(resultado, 0, resultado.Length);
+                        }
+                        
                     }
 
                     else {
 
-                        cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+                        if (checkHexadecimal.ThreeState == false)
+                        {
+                            cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+                        }
+                        else
+                        {
+                            cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
+                        }
                     }
 
                     textDescifrado.Text = cadena;
@@ -276,13 +297,31 @@ namespace CifradoDescifrado
                     {
 
                         resultado = removeEMVPadding(memoryStream.ToArray());
-                        cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
+
+                        if (checkHexadecimal.ThreeState == false)
+                        {
+                            cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
+                        }
+                        else
+                        {
+                            cadena = packedByteArrayToHexStr(resultado, 0, resultado.Length);
+                        }
+
                     }
 
-                    else {
+                    else
+                    {
 
-                        cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+                        if (checkHexadecimal.ThreeState == false)
+                        {
+                            cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
+                        }
+                        else
+                        {
+                            cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
+                        }
                     }
+
 
                     textDescifrado.Text = cadena;
 
@@ -1096,6 +1135,19 @@ namespace CifradoDescifrado
         {
             Claves Claves = new Claves();
             Claves.Show();
+        }
+
+        private void checkHexadecimal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkHexadecimal.ThreeState)
+            {
+                checkHexadecimal.ThreeState = true;
+
+            }
+            else
+            {
+                checkHexadecimal.ThreeState = false;
+            }
         }
     }
 }

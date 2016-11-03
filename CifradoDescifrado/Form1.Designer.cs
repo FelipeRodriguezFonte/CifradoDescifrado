@@ -50,6 +50,8 @@
             this.buttonUuid = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkHexadecimal = new System.Windows.Forms.CheckBox();
+            this.botonGuardar = new System.Windows.Forms.Button();
             this.checkStepByStep = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label11 = new System.Windows.Forms.Label();
@@ -69,7 +71,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.comboBoxMAC = new System.Windows.Forms.ComboBox();
-            this.botonGuardar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -300,6 +301,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.checkHexadecimal);
             this.tabPage1.Controls.Add(this.botonGuardar);
             this.tabPage1.Controls.Add(this.checkStepByStep);
             this.tabPage1.Controls.Add(this.textCifrado);
@@ -325,10 +327,31 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Encrypt/Decrypt";
             // 
+            // checkHexadecimal
+            // 
+            this.checkHexadecimal.AutoSize = true;
+            this.checkHexadecimal.Location = new System.Drawing.Point(31, 116);
+            this.checkHexadecimal.Name = "checkHexadecimal";
+            this.checkHexadecimal.Size = new System.Drawing.Size(117, 17);
+            this.checkHexadecimal.TabIndex = 20;
+            this.checkHexadecimal.Text = "Texto Hexadecimal";
+            this.checkHexadecimal.UseVisualStyleBackColor = true;
+            this.checkHexadecimal.CheckedChanged += new System.EventHandler(this.checkHexadecimal_CheckedChanged);
+            // 
+            // botonGuardar
+            // 
+            this.botonGuardar.Location = new System.Drawing.Point(380, 237);
+            this.botonGuardar.Name = "botonGuardar";
+            this.botonGuardar.Size = new System.Drawing.Size(114, 23);
+            this.botonGuardar.TabIndex = 19;
+            this.botonGuardar.Text = "Guardar";
+            this.botonGuardar.UseVisualStyleBackColor = true;
+            this.botonGuardar.Click += new System.EventHandler(this.button1_Click_2);
+            // 
             // checkStepByStep
             // 
             this.checkStepByStep.AutoSize = true;
-            this.checkStepByStep.Location = new System.Drawing.Point(389, 360);
+            this.checkStepByStep.Location = new System.Drawing.Point(380, 360);
             this.checkStepByStep.Name = "checkStepByStep";
             this.checkStepByStep.Size = new System.Drawing.Size(82, 17);
             this.checkStepByStep.TabIndex = 18;
@@ -545,16 +568,6 @@
             this.comboBoxMAC.TabIndex = 24;
             this.comboBoxMAC.SelectedIndexChanged += new System.EventHandler(this.comboBoxMAC_SelectedIndexChanged);
             // 
-            // botonGuardar
-            // 
-            this.botonGuardar.Location = new System.Drawing.Point(380, 237);
-            this.botonGuardar.Name = "botonGuardar";
-            this.botonGuardar.Size = new System.Drawing.Size(114, 23);
-            this.botonGuardar.TabIndex = 19;
-            this.botonGuardar.Text = "Guardar";
-            this.botonGuardar.UseVisualStyleBackColor = true;
-            this.botonGuardar.Click += new System.EventHandler(this.button1_Click_2);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -621,6 +634,7 @@
         public System.Windows.Forms.ComboBox comboBoxMAC;
         private System.Windows.Forms.CheckBox checkStepByStep;
         private System.Windows.Forms.Button botonGuardar;
+        private System.Windows.Forms.CheckBox checkHexadecimal;
     }
 }
 
