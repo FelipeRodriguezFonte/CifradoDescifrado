@@ -322,7 +322,7 @@ namespace CifradoDescifrado
                         }
                     }
 
-
+                    //Mostrar cadena
                     textDescifrado.Text = cadena;
 
                 }
