@@ -38,7 +38,7 @@ namespace CifradoDescifrado
             byte[] dataToEncrypt = null;
             string textoCifrarString = textDescifrado.Text;
 
-            if (checkHexadecimal.ThreeState == false){
+            if (checkHexadecimal.Enabled == false){
                 //Paso a Bytes del texto
                 dataToEncrypt = Encoding.UTF8.GetBytes(textoCifrarString);
             }
@@ -47,7 +47,7 @@ namespace CifradoDescifrado
                 dataToEncrypt = hexStrToPackedByteArray(textoCifrarString);
             }
 
-           
+       
 
             myLog = "Texto a cifrar: " + textoCifrarString + "\r\n";
 
@@ -89,7 +89,7 @@ namespace CifradoDescifrado
                     break;
             }
 
-            if (checkStepByStep.ThreeState == true)
+            if (checkStepByStep.Enabled == true)
             {
                 StepByStep log = new StepByStep();
                 log.Show();
@@ -209,7 +209,7 @@ namespace CifradoDescifrado
 
                         resultado = removeEMVPadding(memoryStream.ToArray());
 
-                        if (checkHexadecimal.ThreeState == false) {
+                        if (checkHexadecimal.Enabled == false) {
                             cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
                         }else {
                             cadena = packedByteArrayToHexStr(resultado, 0, resultado.Length);
@@ -219,7 +219,7 @@ namespace CifradoDescifrado
 
                     else {
 
-                        if (checkHexadecimal.ThreeState == false)
+                        if (checkHexadecimal.Enabled == false)
                         {
                             cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
                         }
@@ -298,7 +298,7 @@ namespace CifradoDescifrado
 
                         resultado = removeEMVPadding(memoryStream.ToArray());
 
-                        if (checkHexadecimal.ThreeState == false)
+                        if (checkHexadecimal.Enabled == false)
                         {
                             cadena = ConvertHex(packedByteArrayToHexStr(resultado, 0, resultado.Length));
                         }
@@ -312,7 +312,7 @@ namespace CifradoDescifrado
                     else
                     {
 
-                        if (checkHexadecimal.ThreeState == false)
+                        if (checkHexadecimal.Enabled == false)
                         {
                             cadena = ConvertHex(packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length));
                         }
@@ -374,6 +374,7 @@ namespace CifradoDescifrado
 
                     case "EMV":
                         des.Padding = PaddingMode.None;
+                        dataToEncrypt = addEMVPadding(dataToEncrypt, 8);
                         break;
 
                 }
@@ -388,22 +389,8 @@ namespace CifradoDescifrado
                     cryptoStream.FlushFinalBlock();
 
                     String cadena = null;
-                    byte[] resultado = null;
-
-
-                    if (tipoPadding.Equals("EMV"))
-                    {
-
-                        resultado = addEMVPadding(memoryStream.ToArray(),8);
-                        cadena = packedByteArrayToHexStr(resultado, 0, resultado.Length);
-
-                    }
-
-                    else {
-
-                        cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
-                    }
-
+  
+                    cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
                     myLog = myLog + "Texto Cifrado: " + cadena + "\r\n";
 
                     textCifrado.Text = cadena;
@@ -457,6 +444,7 @@ namespace CifradoDescifrado
 
                     case "EMV":
                         des.Padding = PaddingMode.None;
+                        dataToEncrypt = addEMVPadding(dataToEncrypt, 8);
                         break;
 
                 }
@@ -472,22 +460,7 @@ namespace CifradoDescifrado
 
 
                     String cadena = null;
-                    byte[] resultado = null;
-
-
-                    if (tipoPadding.Equals("EMV"))
-                    {
-
-                        resultado = addEMVPadding(memoryStream.ToArray(), 8);
-                        cadena = packedByteArrayToHexStr(resultado, 0, resultado.Length);
-
-                    }
-
-                    else {
-
-                        cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
-                    }
-
+                    cadena = packedByteArrayToHexStr(memoryStream.ToArray(), 0, memoryStream.ToArray().Length);
                     textCifrado.Text = cadena;
 
                 }
@@ -1120,15 +1093,12 @@ namespace CifradoDescifrado
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (!checkStepByStep.ThreeState)
+            if (checkStepByStep.Checked == true)
             {
-                checkStepByStep.ThreeState = true;
+                checkStepByStep.Enabled = true;
              
             }
-            else
-            {
-                checkStepByStep.ThreeState = false;
-            }
+           
         }
 
         private void button1_Click_2(object sender, EventArgs e)
@@ -1139,15 +1109,12 @@ namespace CifradoDescifrado
 
         private void checkHexadecimal_CheckedChanged(object sender, EventArgs e)
         {
-            if (!checkHexadecimal.ThreeState)
+            if (checkHexadecimal.Checked ==true)
             {
-                checkHexadecimal.ThreeState = true;
+                checkHexadecimal.Enabled = true;
 
             }
-            else
-            {
-                checkHexadecimal.ThreeState = false;
-            }
+          
         }
     }
 }
